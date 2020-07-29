@@ -26,6 +26,6 @@ class CreateProgenitorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parents');
+        Schema::dropIfExists('progenitors');
     }
 }
