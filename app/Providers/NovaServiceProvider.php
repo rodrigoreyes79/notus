@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Cloudstudio\ResourceGenerator\ResourceGenerator;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -75,7 +76,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new \Cloudstudio\ResourceGenerator\ResourceGenerator(),
+            new ResourceGenerator(),
             new NovaToolPermissions(),
         ];
     }
