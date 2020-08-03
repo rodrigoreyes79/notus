@@ -3,12 +3,15 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
-use Silvanite\NovaToolPermissions\Role;
 
 class User extends Resource
 {
@@ -63,7 +66,9 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            BelongsToMany::make('Roles', 'roles', Role::class),
+            BelongsToMany::make("Subjects Offered", "subjects", Subject::class),
+            BelongsToMany::make("Subjects Enrolled", "enrollments", Subject::class),
+            HasMany::make("Class Notes", "classNotes", ClassNote::class)
         ];
     }
 
