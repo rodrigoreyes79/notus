@@ -39,7 +39,7 @@ class RoleSeeder extends Seeder
             'viewUsers'
         ]);
         $permissions->each(function($p) use ($adminRole) {
-            $adminRole->grant('$p');
+            $adminRole->grant($p);
         });
     }
 }
