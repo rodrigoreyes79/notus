@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Silvanite\Brandenburg\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -11,9 +12,34 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        \Silvanite\Brandenburg\Role::insert([
+        $id = Role::insertGetId([
             "name" => "Admin",
             "slug" => "admin"
         ]);
+
+        /** @var Role $adminRole */
+        $adminRole = Role::find($id);
+
+        $permissions = collect([
+            'assignRoles',
+            'attachStudents',
+            'canBeGivenAccess',
+            'manageAllClassNotes',
+            'manageAllSubjects',
+            'manageClassNotes',
+            'manageRoles',
+            'manageSubjects',
+            'manageUsers',
+            'viewAllClassNotes',
+            'viewAllSubjects',
+            'viewClassNotes',
+            'viewNova',
+            'viewRoles',
+            'viewSubjects',
+            'viewUsers'
+        ]);
+        $permissions->each(function($p) use ($adminRole) {
+            $adminRole->grant('$p');
+        });
     }
 }
