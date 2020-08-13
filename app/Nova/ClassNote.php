@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 
 class ClassNote extends Resource
@@ -136,5 +137,32 @@ class ClassNote extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    public static function relatableSubjects(NovaRequest $request, $query)
+    {
+        /** @var \App\User $user */
+        $user = auth()->user();
+
+        if($user->can('viewAllSubjects')) return $query;
+
+        $subjectIds = $user->subjects->pluck('id');
+        return $query
+            ->whereIn("id", $subjectIds);
+    }
+
+    public static function relatableStudents(NovaRequest $request, $query) {
+        /** @var \App\User $user */
+        $user = auth()->user();
+
+        if($user->can('viewAllSubjects')) return $query;
+
+        $subjectIds = $user->subjects->pluck('id');
+        $studentIds = \App\SubjectStudent::query()
+            ->whereIn('subject_id', $subjectIds)
+            ->pluck('user_id')
+            ->unique();
+        return $query
+            ->whereIn('id', $studentIds);
     }
 }
