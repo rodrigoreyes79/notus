@@ -12,34 +12,42 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        $permissions = collect([
+            'assignRoles' => ['admin'],
+            'attachStudents' => ['admin'],
+            'canBeGivenAccess' => ['admin'],
+            'manageAllClassNotes' => ['admin'],
+            'manageAllSubjects' => ['admin'],
+            'manageClassNotes' => ['admin', 'teacher'],
+            'manageRoles' => ['admin'],
+            'manageSubjects' => ['admin'],
+            'manageUsers' => ['admin'],
+            'viewAllClassNotes' => ['admin'],
+            'viewAllSubjects' => ['admin'],
+            'viewClassNotes' => ['admin', 'teacher'],
+            'viewNova' => ['admin', 'teacher'],
+            'viewRoles' => ['admin'],
+            'viewSubjects' => ['admin', 'teacher'],
+            'viewUsers' => ['admin', 'teacher']
+        ]);
+
+        $this->addRole('Admin', 'admin', $permissions);
+        $this->addRole('Teacher', 'teacher', $permissions);
+    }
+
+    private function addRole($name, $slug, $permissions){
         $id = Role::insertGetId([
-            "name" => "Admin",
-            "slug" => "admin"
+            "name" => $name,
+            "slug" => $slug
         ]);
 
         /** @var Role $adminRole */
-        $adminRole = Role::find($id);
+        $role = Role::find($id);
 
-        $permissions = collect([
-            'assignRoles',
-            'attachStudents',
-            'canBeGivenAccess',
-            'manageAllClassNotes',
-            'manageAllSubjects',
-            'manageClassNotes',
-            'manageRoles',
-            'manageSubjects',
-            'manageUsers',
-            'viewAllClassNotes',
-            'viewAllSubjects',
-            'viewClassNotes',
-            'viewNova',
-            'viewRoles',
-            'viewSubjects',
-            'viewUsers'
-        ]);
-        $permissions->each(function($p) use ($adminRole) {
-            $adminRole->grant($p);
+        $permissions->filter(function($value, $key) use ($slug) {
+            return collect($value)->contains($slug);
+        })->each(function($p) use ($role) {
+            $role->grant($p);
         });
     }
 }
