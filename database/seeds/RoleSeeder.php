@@ -46,7 +46,7 @@ class RoleSeeder extends Seeder
 
         $permissions->filter(function($value, $key) use ($slug) {
             return collect($value)->contains($slug);
-        })->each(function($p) use ($role) {
+        })->each(function($value, $p) use ($role) {
             $role->grant($p);
         });
     }
