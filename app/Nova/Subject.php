@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 
 class Subject extends Resource
@@ -74,6 +75,7 @@ class Subject extends Resource
             ,
             BelongsToMany::make("Teachers", "teachers", User::class),
             BelongsToMany::make("Students", "students", User::class),
+            HasMany::make("Class Notes", "classNotes", ClassNote::class),
         ];
     }
 
@@ -120,4 +122,5 @@ class Subject extends Resource
     {
         return [];
     }
+
 }
