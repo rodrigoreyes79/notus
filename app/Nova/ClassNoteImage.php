@@ -3,30 +3,35 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Markdown;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 
-class ClassNote extends Resource
+class ClassNoteImage extends Resource
 {
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var  string
      */
-    public static $model = \App\ClassNote::class;
+    public static $model = \App\ClassNoteImage::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var  string
      */
-    public static $title = 'topic';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -34,7 +39,7 @@ class ClassNote extends Resource
      * @var  array
      */
     public static $search = [
-        'id', 'topic', 'objective', 'note'
+        'id', 'name', 'file'
     ];
 
     /**
@@ -44,7 +49,7 @@ class ClassNote extends Resource
      */
     public static function label()
     {
-        return __('Class Notes');
+        return __('Class Note Images');
     }
 
     /**
@@ -54,7 +59,7 @@ class ClassNote extends Resource
      */
     public static function singularLabel()
     {
-        return __('Class Note');
+        return __('Class Note Image');
     }
 
     /**
@@ -70,30 +75,21 @@ class ClassNote extends Resource
                 ->rules('required')
                 ->sortable()
             ,
-            BelongsTo::make('Subject')
+            BelongsTo::make('ClassNote')
                 ->rules('required')
                 ->searchable()
                 ->sortable()
             ,
-            BelongsTo::make('Student', 'student', User::class)
-                ->rules('required')
-                ->searchable()
-                ->sortable()
-            ,
-            Text::make(__('Topic'), 'topic')
+            Text::make(__('Name'), 'name')
                 ->rules('required')
                 ->sortable()
             ,
-            Text::make(__('Objective'), 'objective')
-                ->rules('required')
+            Text::make(__('Description'), 'description')
                 ->sortable()
             ,
-            Markdown::make(__('Notes'), 'notes')
-                ->alwaysShow()
+            File::make(__('File'), 'file')
                 ->rules('required')
                 ->sortable()
-            ,
-            HasMany::make(__('Images'), 'images', ClassNoteImage::class)
             ,
         ];
     }
@@ -140,32 +136,5 @@ class ClassNote extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    public static function relatableSubjects(NovaRequest $request, $query)
-    {
-        /** @var \App\User $user */
-        $user = auth()->user();
-
-        if($user->can('viewAllSubjects')) return $query;
-
-        $subjectIds = $user->subjects->pluck('id');
-        return $query
-            ->whereIn("id", $subjectIds);
-    }
-
-    public static function relatableStudents(NovaRequest $request, $query) {
-        /** @var \App\User $user */
-        $user = auth()->user();
-
-        if($user->can('viewAllSubjects')) return $query;
-
-        $subjectIds = $user->subjects->pluck('id');
-        $studentIds = \App\SubjectStudent::query()
-            ->whereIn('subject_id', $subjectIds)
-            ->pluck('user_id')
-            ->unique();
-        return $query
-            ->whereIn('id', $studentIds);
     }
 }

@@ -25,4 +25,8 @@ class ClassNote extends Model
     public function student() {
         return $this->belongsTo('App\User', 'student_id', 'id');
     }
+
+    public function images() {
+        return $this->hasMany(ClassNoteImage::class, 'class_note_id', 'id');
+    }
 }
