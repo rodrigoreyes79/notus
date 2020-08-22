@@ -40,7 +40,8 @@ class AuthServiceProvider extends ServiceProvider
             'manageAllSubjects',
             'viewSubjects',
             'viewAllSubjects',
-            'attachStudents'
+            'attachStudents',
+            'onlyViewStudents',
         ])->each(function ($permission) {
             Gate::define($permission, function ($user) use ($permission) {
                 if ($this->nobodyHasAccess($permission)) {

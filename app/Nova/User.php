@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -12,6 +13,7 @@ use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
@@ -114,5 +116,22 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        /** @var \App\User $user */
+        $user = $request->user();
+        if($user->can('onlyViewStudents')){
+            /** @var Collection $subjects */
+            $subjects = $user->subjects;
+            $students = $subjects->flatMap(function($subject) {
+                /** @var \App\Subject $subject */
+                return $subject->students;
+            })->pluck('id')->unique();
+            return $query->whereIn('id', $students);
+        }
+
+        return $query;
     }
 }
