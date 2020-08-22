@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 
 
@@ -87,7 +88,7 @@ class ClassNoteImage extends Resource
             Text::make(__('Description'), 'description')
                 ->sortable()
             ,
-            File::make(__('File'), 'file')
+            Image::make(__('File'), 'file')
                 ->rules('required')
                 ->sortable()
             ,
