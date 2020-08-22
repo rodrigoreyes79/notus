@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use Cloudstudio\ResourceGenerator\ResourceGenerator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Silvanite\NovaToolPermissions\NovaToolPermissions;
+use function env;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -75,10 +77,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [
-            new ResourceGenerator(),
-            new NovaToolPermissions(),
-        ];
+        $tools = [new NovaToolPermissions()];
+
+        if(!App::environment('production')){
+            $tools[] = new ResourceGenerator();
+        }
+        return $tools;
     }
 
     /**
