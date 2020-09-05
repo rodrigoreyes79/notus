@@ -11,6 +11,10 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/TeacherHelp"
         }
     ],
     "require": {
@@ -23,7 +27,8 @@
         "laravel/framework": "^7.0",
         "laravel/nova": "~3.0",
         "laravel/tinker": "^2.0",
-        "silvanite/novatoolpermissions": "^1.1"
+        "silvanite/novatoolpermissions": "^1.1",
+        "notus/teacher_help": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

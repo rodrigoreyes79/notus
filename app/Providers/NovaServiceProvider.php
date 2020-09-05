@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Notus\TeacherHelp\TeacherHelp;
 use Silvanite\NovaToolPermissions\NovaToolPermissions;
 use function env;
 
@@ -56,7 +57,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            new TeacherHelp(),
         ];
     }
 
