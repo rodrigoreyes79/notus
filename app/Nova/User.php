@@ -128,7 +128,7 @@ class User extends Resource
             $students = $subjects->flatMap(function($subject) {
                 /** @var \App\Subject $subject */
                 return $subject->students;
-            })->pluck('id')->unique();
+            })->pluck('id')->unique()->push($user->id);
             return $query->whereIn('users.id', $students);
         }
 
