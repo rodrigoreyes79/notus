@@ -89,7 +89,6 @@ class ClassNoteImage extends Resource
                 ->sortable()
             ,
             Image::make(__('File'), 'file')
-                ->rules('required')
                 ->sortable()
             ,
         ];
