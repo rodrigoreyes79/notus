@@ -129,7 +129,7 @@ class User extends Resource
                 /** @var \App\Subject $subject */
                 return $subject->students;
             })->pluck('id')->unique();
-            return $query->whereIn('id', $students);
+            return $query->whereIn('users.id', $students);
         }
 
         return $query;
