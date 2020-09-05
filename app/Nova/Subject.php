@@ -131,7 +131,7 @@ class Subject extends Resource
         if(!$user->can('manageAllSubjects')){
             /** @var Collection $subjects */
             $subjects = $user->subjects->pluck('id')->unique();
-            return $query->whereIn('id', $subjects);
+            return $query->whereIn('subjects.id', $subjects);
         }
 
         return $query;
