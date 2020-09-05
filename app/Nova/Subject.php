@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -121,6 +122,19 @@ class Subject extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        /** @var \App\User $user */
+        $user = $request->user();
+        if(!$user->can('manageAllSubjects')){
+            /** @var Collection $subjects */
+            $subjects = $user->subjects->pluck('id')->unique();
+            return $query->whereIn('id', $subjects);
+        }
+
+        return $query;
     }
 
 }
