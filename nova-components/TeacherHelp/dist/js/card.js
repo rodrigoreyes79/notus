@@ -257,6 +257,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
@@ -295,9 +301,25 @@ var render = function() {
         _vm._v(" "),
         _c("p", { staticClass: "mt-4 font-light text-left" }, [
           _vm._v(
-            "\n            Notus helps Homeschoolers' parents and teachers keep track of the learning activities students engage in\n            through their learning process. Here's a quick introduction on how to use it.\n        "
+            "\n            Notus helps Homeschoolers' parents and teachers keep track of the learning activities students engage in\n            through their learning process. Here's a quick introduction on how to use it for adding\n            class notes:\n        "
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "video",
+          {
+            staticClass: "mt-8",
+            attrs: { width: "960", height: "540", controls: "" }
+          },
+          [
+            _c("source", {
+              attrs: { src: "/help/notus.mp4", type: "video/mp4" }
+            }),
+            _vm._v(
+              "\n            Your browser does not support the video tag.\n        "
+            )
+          ]
+        )
       ])
     ]
   )
