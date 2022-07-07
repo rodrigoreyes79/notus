@@ -22,7 +22,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "tailwindcss": "^1.4.6",
         "vue": "^2.6.11"
     }
